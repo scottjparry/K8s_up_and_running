@@ -103,6 +103,17 @@ You can even move your storage away from specific storage implementations depend
 
 The effort involved in large, but it allows a level of portability that you would struggle to get any other way.
 
-
-
 ## Efficiency
+
+Kubernetes allows for increased efficiency, partially because developers do not need to think about machines and can simply think about applications. But also because multiple applications can all be co-located on the same machine which allows for a much denser user of the infrastructure. The alternative to this would be a virtual machine (or several) for a developer to use that has its own cost (CPU, RAM, electricity, maintenance etc).
+
+Developers are able to create their own test environments (and terminate them) as required via kubernetes. These can be created use a kubernetes *namespace*. Alternatively all the developers might share a single cluster, the more developers that use the cluster the cheaper the cost is per container.
+
+This can remove some of the cost associated with having multiple test environments and allow things like testing every commit made by a developer.
+
+When you start to deploy containers instead of complete VM's incurred costs can start to decrease. Doing this with increased velocity allows you to see faster returns on the reliability of code and problem identification.
+
+# Cliff notes
+
+Kubernetes was built to help developers to develir features with more velocity, effficiency and agility while providing a reliable platform to do that on.
+
