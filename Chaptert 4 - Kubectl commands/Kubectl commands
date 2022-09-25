@@ -1,0 +1,151 @@
+# Basic Kubectl commands
+
+-  Create a new config
+    > kubectl config set-context my-context --namespace=mystuff
+    - Change to a config
+    > kubectl config use-context $context
+
+Everything provided by K8s is passed through a RESTful API. This means that it is largely not human readable without effort.
+
+The kubectl command retrieves information via HTTP and then formates the information in a readable response. As this is done automatically some information is stripped from the default command line feedback.
+
+If you find you are missing information from the feedback tat you are looking for you can view the JSON or YAML feedback using the arguments
+
+> -o json
+
+or
+
+> -o yaml
+
+this provides the output in raw format.
+
+You are able to remove headers
+
+> --no-headers
+
+Which takes the header off the human readable table.
+
+You can also pipe to other commands if required.
+
+You can use JSON paths (more review required)
+
+The below owuld print the IP address of the specified pod
+
+> kubectl get pods my-pod -o jsonpath --template={.status.podIP}
+
+or just extra object about a particular object
+
+> kubectl describe resource obj-name
+
+
+
+# Create, Updating and Destroying Kubernetes Objects
+
+K8s objects are API represented in JSON or YAML files. These files are either in response to a query or posted to the server as part of a request.
+
+You can apply a YAML config file with the below
+
+> kubectl apply -f obj.yaml
+
+No resources are required to be defined in the command. It is all configured as part of the YAML file.
+
+Running the same command again will perform the same update against your K8s infratsructure.
+
+> kubectl apply
+
+will only modify objects that are different from the current objects. If the objects you are referencing already exist in the cluster no further action will be taken.
+
+This is good to ensure the cluster is in an expected state.
+
+> kubectl apply -f obj.yaml --dru-run
+
+The above will provide an output of the changes that will be made to K8s if you apply the file.
+
+**Editing files interactively**
+
+> kubectl edit resource-name obj-name
+
+Will allow you to make edits as you go. When you save the file it is automatically uploaded to the cluster.
+
+The *apply* command also records the previous configuration within the object
+
+> edit-last-applied
+> set-last-applied
+> view-last-applied
+
+Will show you the state that was last applied to the object
+
+> kubectl apply -f obj.yaml view-last-applied
+
+**Deleting an object**
+
+> kubectl delete -f obj.yaml
+
+Deletes the object in yaml. **THERE IS NOT CONFIRMATION** your object will be deleted.
+
+you can also delete an object via resource type and name
+
+> kubectl delete resource-name obj-name
+
+# Debugging Commands
+
+You can view logs for the containers
+
+> kubectl logs pod-name
+
+you can view invidual containers in a pod with
+
+> kubectl logs pod-name -c
+
+Default behaviour is to show logs and exit
+
+To view a stream of the logs use
+
+> kubectl logs pod-name -f
+
+Log example from minikube
+
+    ==> storage-provisioner [38a464630dfd] <==
+    I0925 06:38:56.616344       1 storage_provisioner.go:116] Initializing the minikube storage provisioner...
+    F0925 06:39:26.623139       1 main.go:39] error getting server version: Get "https://10.96.0.1:443/version?timeout=32s": dial tcp 10.96.0.1:443: i/o timeout
+
+You can execute commands to a pod
+
+The below will provide an interactive bash shell in the container
+
+> kubectl exec -it pod-name -- bash
+
+you can attach it to a running process if you dont have bash or terminal available inside the pod
+
+> kubectl attach -it pod-name
+
+This allows you to send input to the running process assuming it can reach from standard input.
+
+
+You can also copy files to and from a contaienr
+
+> kubectl cp pod-name:/path//to/remote/file /path/to/local/file
+
+Reversing the above syntax allows you to copy a file into the pod.
+
+You can forward ports to a service
+
+> kubectl port-forward pod-name local-port:remote-port
+
+Port forward can be used with services by using
+
+> kubectl port-forward service/service-name
+
+The request will only ever be forwarded to a single pod in that service. It will not go through the load balancer.
+
+THe below commands will provide performance information on pods
+
+> kubectl top nodes
+>
+> kubectl top pods
+
+using the
+
+> --all-namepsaces
+
+flag will show the information in the cluster as we
