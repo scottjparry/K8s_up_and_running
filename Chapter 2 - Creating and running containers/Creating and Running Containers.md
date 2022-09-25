@@ -135,9 +135,42 @@ Initially both of these images would function the same.
 
 When server.js changes and needs to be updated the behaviour changes significantly.
 
-In Example 1, the source code would change, Layer B is updated with new source code, Layer C then needs to be updated as well.
+In Example 1, the source code would change, Layer B is updated with new source code, Layer C then needs to be updated as well. This is because the 'node' package is dependent on server.js source code.
 
 In Example 2, the source could would change in Layer C, however Layer B would not need to be updated as the 'node' package has not changed.
 
 In general layers should be ordered from "Least likely to be changed" to "Most likely to be changed" this avoids having to make extra changes every time an update is made.
+
+# Storing Images in a Remote Registry
+
+Instead of exporting a single image and then deploying it multiple machines so they all have a local copy (tedious and error prone) images can be stored in "remote registry"
+
+There are public and private registries.
+
+Public registries would be used to deploy your application to the world.
+
+Private registries would be used to manage internal application for your company, or to store images you wish to keep private.
+
+
+Workflow
+
+login in to container registry
+
+> docker login
+
+Once you are logged in to the registry you can tag the image
+
+> docker tag kuard-amd41:1 gcr.io/kuar-demo/kuard-amd64:1
+
+This uses the format
+
+> docker tag "image-name" "registry-location"
+
+You can then push the image
+
+> docker push gcr.io/kuar-demo/kuard-amd64:1
+
+This makes the image available on a remote registry, as its a public registry it means its available for everyone everywhere without auth.
+
+# Docker Container Runtime
 
