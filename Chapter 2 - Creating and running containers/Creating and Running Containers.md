@@ -64,27 +64,29 @@ This will be largely focused on application containers rather than system contai
 
 ## Dockerfiles
 
-A "Dockerfile" can be used to automate the creation of a Docker image.
+This is outdated from Version 1 of the ebook. Have since upgraded to version 2. I will come back to this at some point and review.
 
-Example from book is below
+        A "Dockerfile" can be used to automate the creation of a Docker image.
 
-> FROM alpine
->
-> MAINTAINER Kelsey Hightower <kelsey.hightower@kuar.io>
->
-> COPY bin/kuard /kuard
->
-> ENTRYPOINT ["/kuard"]
+        Example from book is below
 
-The above text would be stored in a text file, typically named *Dockerfile*
+        > FROM alpine
+        >
+        > MAINTAINER Kelsey Hightower <kelsey.hightower@kuar.io>
+        >
+        > COPY bin/kuard /kuard
+        >
+        > ENTRYPOINT ["/kuard"]
 
-This provides instructions to add the "kuard" binary to the docker image.
+        The above text would be stored in a text file, typically named *Dockerfile*
 
-Building the docker image is done with the below command
+        This provides instructions to add the "kuard" binary to the docker image.
 
-> docker build -t kuard-amd64:1
+        Building the docker image is done with the below command
 
-This adds the image to the local docker registry, making it accessible to a single machine only. This image can be saved in a container registry to allow wider sharing of the image.
+        > docker build -t kuard-amd64:1
+
+        This adds the image to the local docker registry, making it accessible to a single machine only. This image can be saved in a container registry to allow wider sharing of the image.
 
 ## Image Security
 
@@ -174,3 +176,7 @@ This makes the image available on a remote registry, as its a public registry it
 
 # Docker Container Runtime
 
+Container runtimes are required to run containers. As of December 2020 containerd has been the default runtime in Kubernetes.
+
+
+    Largely skipping this section as I have not requirements to create container images at the moment.
