@@ -128,6 +128,8 @@ You can also copy files to and from a contaienr
 
 Reversing the above syntax allows you to copy a file into the pod.
 
+Generall speaking copying files into pods in an anti-pattern. The contents of the container should be considered immutable and if you need data in the pod the images should be updated or accessed via persistent storage.
+
 You can forward ports to a service
 
 > kubectl port-forward pod-name local-port:remote-port
